@@ -1,0 +1,15 @@
+# Tests that run `nix` share one state database, which only one process may
+# write at a time, so they run one after another.
+[test-groups.nix-state]
+max-threads = 1
+
+[[profile.default.overrides]]
+filter = "package(drakeflake-flake) | package(drakeflake-file) | package(drakeflake-helper)"
+test-group = "nix-state"
+
+[profile.ci]
+fail-fast = false
+failure-output = "immediate-final"
+
+[profile.ci.junit]
+path = "junit.xml"

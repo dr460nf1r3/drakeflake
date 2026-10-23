@@ -1,0 +1,26 @@
+[package]
+name = "drakeflake-tray"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "drakeflake-tray"
+path = "src/main.rs"
+
+# A StatusNotifierItem needs D-Bus: Linux only (macOS: crates/tray-macos).
+[target.'cfg(target_os = "linux")'.dependencies]
+drakeflake-fs.workspace = true
+drakeflake-log.workspace = true
+drakeflake-tray-core.workspace = true
+ksni.workspace = true
+# inotify (watch.rs) and poll.
+rustix = { workspace = true, features = ["fs", "event"] }
+
+[lints]
+workspace = true
+
+[target.'cfg(target_os = "linux")'.dev-dependencies]
+tempfile.workspace = true

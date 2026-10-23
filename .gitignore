@@ -1,0 +1,12 @@
+/target/
+.direnv/
+result
+result-*
+.idea
+.vscode/
+src/qml/i18n/
+.pre-commit-config.yaml
+/.gitmodules
+.env
+.env.*
+.DS_Store

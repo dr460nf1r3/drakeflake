@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s globstar nullglob
+
+root=${1:-.}
+limit=400
+cd "$root"
+
+allowed=()
+if [ -f .file-size-allow ]; then
+  while read -r line; do
+    line=${line%%#*}
+    line=${line//[[:space:]]/}
+    [ -n "$line" ] && allowed+=("$line")
+  done <.file-size-allow
+fi
+
+is_allowed() {
+  local file
+  for file in "${allowed[@]}"; do
+    [ "$file" = "$1" ] && return 0
+  done
+  return 1
+}
+
+failed=0
+for file in crates/**/*.rs src/qml/**/*.qml src/qml/**/*.js; do
+  lines=$(wc -l <"$file")
+  if [ "$lines" -gt "$limit" ] && ! is_allowed "$file"; then
+    echo "too long: $file has $lines lines (limit $limit): split it into modules"
+    failed=1
+  elif [ "$lines" -le "$limit" ] && is_allowed "$file"; then
+    echo "stale exception: $file has $lines lines now; remove it from .file-size-allow"
+    failed=1
+  fi
+done
+
+for file in "${allowed[@]}"; do
+  if [ ! -f "$file" ]; then
+    echo "stale exception: $file does not exist; remove it from .file-size-allow"
+    failed=1
+  fi
+done
+
+if [ "$failed" -eq 0 ]; then
+  echo "file sizes ok (limit $limit lines, ${#allowed[@]} exceptions left)"
+fi
+exit "$failed"

@@ -1,0 +1,12 @@
+allow-expect-in-tests = true
+allow-indexing-slicing-in-tests = true
+allow-panic-in-tests = true
+allow-print-in-tests = true
+allow-unwrap-in-tests = true
+cognitive-complexity-threshold = 15
+doc-valid-idents = ["DrakeFlake", "JSDoc", ".."]
+too-many-arguments-threshold = 5
+too-many-lines-threshold = 60
+# Struct fields, variants and impl items keep their order (serde output, derived Ord).
+source-item-ordering = ["module"]
+module-items-ordered-within-groupings = "none"

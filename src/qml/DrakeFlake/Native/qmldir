@@ -1,0 +1,2 @@
+module DrakeFlake.Native
+singleton SystemTheme 1.0 SystemTheme.qml

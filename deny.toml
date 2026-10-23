@@ -1,0 +1,34 @@
+[graph]
+targets = ["x86_64-unknown-linux-gnu", "aarch64-unknown-linux-gnu", "aarch64-apple-darwin"]
+
+[advisories]
+version = 2
+yanked = "deny"
+
+[licenses]
+allow = [
+    "Apache-2.0",
+    "Apache-2.0 WITH LLVM-exception",
+    "CC0-1.0",
+    # libloading, through wayland-sys (the window blur).
+    "ISC",
+    "LGPL-3.0-only",
+    "MIT",
+    "Unicode-3.0",
+    "Unlicense",
+    "Zlib",
+]
+confidence-threshold = 0.9
+version = 2
+
+[licenses.private]
+ignore = true
+
+[bans]
+allow-wildcard-paths = true
+multiple-versions = "warn"
+wildcards = "deny"
+
+[sources]
+unknown-git = "deny"
+unknown-registry = "deny"

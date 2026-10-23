@@ -1,0 +1,21 @@
+[package]
+name = "drakeflake-config"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+serde.workspace = true
+toml.workspace = true
+anyhow.workspace = true
+log.workspace = true
+drakeflake-fs.workspace = true
+drakeflake-render.workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+
+[lints]
+workspace = true

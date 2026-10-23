@@ -1,0 +1,21 @@
+[package]
+name = "drakeflake-plan"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+# What the root helper links: kept free of the crates that evaluate Nix,
+# so the code running as root stays small and auditable.
+[dependencies]
+drakeflake-render.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

@@ -1,0 +1,16 @@
+[package]
+name = "drakeflake-store"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+drakeflake-render.workspace = true
+serde_json.workspace = true
+log.workspace = true
+
+[lints]
+workspace = true

@@ -1,0 +1,23 @@
+[package]
+name = "drakeflake-exec"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+log.workspace = true
+# Process groups and PR_SET_PDEATHSIG for the commands it starts.
+rustix = { workspace = true, features = ["process"] }
+
+[features]
+# The scripted runner for tests of crates that run programs.
+testing = []
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+drakeflake-exec = { workspace = true, features = ["testing"] }

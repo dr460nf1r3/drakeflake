@@ -1,0 +1,21 @@
+name: Set up Nix
+description: Install Nix and the magic cache, and optionally provide the fonts the self-tests render with.
+
+inputs:
+  fonts:
+    description: Point FONTCONFIG_FILE at DejaVu.
+    default: "false"
+
+runs:
+  using: composite
+  steps:
+    - uses: cachix/install-nix-action@v31
+    - uses: DeterminateSystems/magic-nix-cache-action@v15
+    - if: inputs.fonts == 'true'
+      shell: bash
+      run: |
+        fonts=$(nix build --no-link --print-out-paths --inputs-from . nixpkgs#dejavu_fonts)
+        mkdir -p "$RUNNER_TEMP/fontconfig"
+        printf '<?xml version="1.0"?>\n<fontconfig><dir>%s/share/fonts</dir><cachedir>%s/fontconfig/cache</cachedir></fontconfig>\n' \
+          "$fonts" "$RUNNER_TEMP" > "$RUNNER_TEMP/fontconfig/fonts.conf"
+        echo "FONTCONFIG_FILE=$RUNNER_TEMP/fontconfig/fonts.conf" >> "$GITHUB_ENV"

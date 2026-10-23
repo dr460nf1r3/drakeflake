@@ -1,0 +1,58 @@
+pragma Singleton
+
+import QtQuick
+
+// Stub: the real module is registered at runtime, not loaded by qmllint.
+QtObject {
+    readonly property color label: "transparent"
+    readonly property color secondaryLabel: "transparent"
+    readonly property color tertiaryLabel: "transparent"
+    readonly property color quaternaryLabel: "transparent"
+    readonly property color text: "transparent"
+    readonly property color placeholderText: "transparent"
+    readonly property color selectedText: "transparent"
+    readonly property color textBackground: "transparent"
+    readonly property color selectedTextBackground: "transparent"
+    readonly property color keyboardFocusIndicator: "transparent"
+    readonly property color unemphasizedSelectedText: "transparent"
+    readonly property color unemphasizedSelectedTextBackground: "transparent"
+    readonly property color link: "transparent"
+    readonly property color separator: "transparent"
+    readonly property color selectedContentBackground: "transparent"
+    readonly property color unemphasizedSelectedContentBackground: "transparent"
+    readonly property color selectedMenuItemText: "transparent"
+    readonly property color grid: "transparent"
+    readonly property color headerText: "transparent"
+    readonly property color windowBackground: "transparent"
+    readonly property color underPageBackground: "transparent"
+    readonly property color controlBackground: "transparent"
+    readonly property color control: "transparent"
+    readonly property color controlText: "transparent"
+    readonly property color disabledControlText: "transparent"
+    readonly property color selectedControl: "transparent"
+    readonly property color selectedControlText: "transparent"
+    readonly property color alternateSelectedControlText: "transparent"
+    readonly property color windowFrameText: "transparent"
+    readonly property color findHighlight: "transparent"
+    readonly property color highlight: "transparent"
+    readonly property color shadow: "transparent"
+    readonly property color controlAccent: "transparent"
+    readonly property color systemRed: "transparent"
+    readonly property color systemOrange: "transparent"
+    readonly property color systemYellow: "transparent"
+    readonly property color systemGreen: "transparent"
+    readonly property color systemMint: "transparent"
+    readonly property color systemTeal: "transparent"
+    readonly property color systemCyan: "transparent"
+    readonly property color systemBlue: "transparent"
+    readonly property color systemIndigo: "transparent"
+    readonly property color systemPurple: "transparent"
+    readonly property color systemPink: "transparent"
+    readonly property color systemBrown: "transparent"
+    readonly property color systemGray: "transparent"
+    readonly property color alternatingContentBackground0: "transparent"
+    readonly property color alternatingContentBackground1: "transparent"
+    readonly property font defaultFont: Qt.font({})
+    readonly property font smallFont: Qt.font({})
+    readonly property font fixedFont: Qt.font({})
+}

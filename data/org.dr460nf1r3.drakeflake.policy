@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE policyconfig PUBLIC
+ "-//freedesktop//DTD PolicyKit Policy Configuration 1.0//EN"
+ "http://www.freedesktop.org/standards/PolicyKit/1/policyconfig.dtd">
+<!-- One action per helper subcommand: pkexec picks the action whose exec.path
+     and exec.argv1 match. Anything else falls back to
+     org.freedesktop.policykit.exec. Only scan-ephemeral lets a password be
+     remembered. Everything that writes or activates asks every time.
+     @helper@ is replaced with the helper's store path at build time. -->
+<policyconfig>
+  <action id="org.dr460nf1r3.drakeflake.apply">
+    <description>Save system settings</description>
+    <message>Authentication is required to save the generated NixOS settings files</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">@helper@</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">apply</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+
+  <!-- Runs the given system's own activation script as root: the prompt
+       shows what is activated. -->
+  <action id="org.dr460nf1r3.drakeflake.activate">
+    <description>Activate a NixOS configuration</description>
+    <message>Authentication is required to activate this NixOS configuration: $(command_line)</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">@helper@</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">activate</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+
+  <action id="org.dr460nf1r3.drakeflake.install-lock">
+    <description>Save updated flake inputs</description>
+    <message>Authentication is required to save the updated flake.lock</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">@helper@</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">install-lock</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+
+  <!-- Reads only names and sizes on the root file system. -->
+  <action id="org.dr460nf1r3.drakeflake.scan-ephemeral">
+    <description>List what a reboot removes</description>
+    <message>Authentication is required to list the files a reboot removes from the root file system</message>
+    <defaults>
+      <allow_any>auth_admin</allow_any>
+      <allow_inactive>auth_admin</allow_inactive>
+      <allow_active>auth_admin_keep</allow_active>
+    </defaults>
+    <annotate key="org.freedesktop.policykit.exec.path">@helper@</annotate>
+    <annotate key="org.freedesktop.policykit.exec.argv1">scan-ephemeral</annotate>
+    <annotate key="org.freedesktop.policykit.exec.allow_gui">true</annotate>
+  </action>
+</policyconfig>

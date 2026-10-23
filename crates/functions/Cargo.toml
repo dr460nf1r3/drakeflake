@@ -1,0 +1,27 @@
+[package]
+name = "drakeflake-functions"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+# Builds the index at package build time (nix/function-index). Not installed
+# with the app.
+[[bin]]
+name = "drakeflake-function-index"
+path = "src/generate/main.rs"
+
+[dependencies]
+anyhow.workspace = true
+drakeflake-store.workspace = true
+log.workspace = true
+rnix.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

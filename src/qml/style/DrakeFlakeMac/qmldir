@@ -1,0 +1,6 @@
+module DrakeFlakeMac
+ItemDelegate 6.0 ItemDelegate.qml
+ScrollView 6.0 ScrollView.qml
+Label 6.0 Label.qml
+ToolButton 6.0 ToolButton.qml
+import QtQuick.Controls.macOS auto

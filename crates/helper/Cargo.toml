@@ -1,0 +1,26 @@
+[package]
+name = "drakeflake-helper"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "drakeflake-helper"
+path = "src/main.rs"
+
+[dependencies]
+drakeflake-plan.workspace = true
+rustix = { workspace = true, features = ["fs", "mount", "process", "thread"] }
+serde_json.workspace = true
+
+# Linux only, like the scan module that uses it.
+[target.'cfg(target_os = "linux")'.dependencies]
+drakeflake-scan.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

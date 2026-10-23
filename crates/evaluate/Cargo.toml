@@ -1,0 +1,23 @@
+[package]
+name = "drakeflake-evaluate"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+drakeflake-config.workspace = true
+drakeflake-fs.workspace = true
+drakeflake-file.workspace = true
+drakeflake-flake.workspace = true
+drakeflake-store.workspace = true
+log.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true

@@ -1,0 +1,49 @@
+[package]
+name = "drakeflake-app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[[bin]]
+name = "drakeflake"
+path = "src/main.rs"
+
+[dependencies]
+alacritty_terminal.workspace = true
+drakeflake-fs.workspace = true
+drakeflake-exec.workspace = true
+drakeflake-validate.workspace = true
+drakeflake-flake.workspace = true
+drakeflake-functions.workspace = true
+drakeflake-store.workspace = true
+drakeflake-file.workspace = true
+drakeflake-plan.workspace = true
+drakeflake-scan.workspace = true
+drakeflake-render.workspace = true
+drakeflake-config.workspace = true
+drakeflake-evaluate.workspace = true
+drakeflake-log.workspace = true
+zbus.workspace = true
+log.workspace = true
+qtbridge.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+# Pseudo-terminals for running nh inside the app.
+rustix = { workspace = true, features = ["fs", "pipe", "pty", "process", "termios", "stdio"] }
+
+[target.'cfg(target_os = "linux")'.dependencies]
+wayland-backend.workspace = true
+wayland-client.workspace = true
+wayland-protocols.workspace = true
+
+[build-dependencies]
+cc.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+drakeflake-exec = { workspace = true, features = ["testing"] }

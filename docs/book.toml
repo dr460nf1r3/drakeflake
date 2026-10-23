@@ -1,0 +1,15 @@
+[book]
+authors = ["dr460nf1r3"]
+description = "NixOS, tamed. User guide for DrakeFlake, a desktop app to search and change the NixOS and Home Manager options, packages and flake inputs of your system flake."
+language = "en"
+src = "src"
+title = "DrakeFlake"
+
+[output.html]
+additional-css = ["./theme/catppuccin.css"]
+default-theme = "mocha"
+preferred-dark-theme = "mocha"
+git-repository-url = "https://github.com/dr460nf1r3/drakeflake"
+git-repository-icon = "fab-github"
+edit-url-template = "https://github.com/dr460nf1r3/drakeflake/edit/main/docs/{path}"
+site-url = "/drakeflake/"

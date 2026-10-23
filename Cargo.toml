@@ -1,0 +1,159 @@
+[workspace]
+members = [
+    "crates/render",
+    "crates/exec",
+    "crates/fs",
+    "crates/plan",
+    "crates/scan",
+    "crates/validate",
+    "crates/flake",
+    "crates/store",
+    "crates/file",
+    "crates/app",
+    "crates/helper",
+    "crates/config",
+    "crates/tray",
+    "crates/tray-core",
+    "crates/tray-macos",
+    "crates/log",
+    "crates/lint",
+    "crates/functions",
+    "crates/evaluate",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+license = "GPL-3.0-or-later"
+# Duration::from_mins in constants needs 1.91 (File::try_lock 1.89).
+rust-version = "1.91"
+publish = false
+
+[workspace.dependencies]
+drakeflake-config = { path = "crates/config" }
+drakeflake-fs = { path = "crates/fs" }
+drakeflake-evaluate = { path = "crates/evaluate" }
+drakeflake-exec = { path = "crates/exec" }
+drakeflake-file = { path = "crates/file" }
+drakeflake-flake = { path = "crates/flake" }
+drakeflake-functions = { path = "crates/functions" }
+drakeflake-log = { path = "crates/log" }
+drakeflake-plan = { path = "crates/plan" }
+drakeflake-render = { path = "crates/render" }
+drakeflake-scan = { path = "crates/scan" }
+drakeflake-store = { path = "crates/store" }
+drakeflake-tray-core = { path = "crates/tray-core" }
+drakeflake-validate = { path = "crates/validate" }
+
+anyhow = "1"
+alacritty_terminal = "0.26"
+cc = "1"
+dispatch2 = "0.3"
+ksni = { version = "0.3", features = ["blocking"] }
+log = { version = "0.4", features = ["std"] }
+notify = { version = "8", default-features = false, features = ["macos_fsevent"] }
+objc2 = "0.6"
+objc2-app-kit = { version = "0.3", default-features = false, features = ["std", "NSApplication", "NSResponder", "NSRunningApplication"] }
+png = "0.18"
+qtbridge = { version = "0.3", features = ["serde_json"] }
+regex = "1"
+rnix = "0.14"
+rowan = "0.16"
+rustix = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+tempfile = "3"
+toml = "1"
+tray-icon = { version = "0.26", default-features = false }
+tree-sitter = "0.27"
+tree-sitter-javascript = "0.25"
+tree-sitter-qmljs = "0.3"
+tree-sitter-rust = "0.24"
+wayland-backend = { version = "0.3", features = ["client_system"] }
+wayland-client = "0.31"
+wayland-protocols = { version = "0.32", features = ["client", "staging"] }
+zbus = { version = "5", default-features = false, features = ["tokio", "blocking-api"] }
+
+# qtbridge-interfaces 0.3 calls into C++ through `&mut` proxies while C++ re-enters through shared ones.
+# Optimised, the borrow handle is reordered past the C++ call and re-entrant model calls panic.
+[profile.release.package.qtbridge-interfaces]
+opt-level = 0
+
+# No LTO: it could undo the opt-level workaround above. Unwinding stays on for catch_unwind.
+[profile.release]
+codegen-units = 1
+debug = "line-tables-only"
+
+[profile.dev.package."*"]
+opt-level = 2
+[profile.dev.package.qtbridge-interfaces]
+opt-level = 0
+# Search runs on every keystroke and rarely changes: optimised in debug too.
+[profile.dev.package.drakeflake-store]
+opt-level = 2
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+unused_qualifications = "warn"
+# Not `unreachable_pub`: it contradicts clippy's `redundant_pub_crate`
+# (nursery), which asks for plain `pub` inside private modules.
+
+[workspace.lints.clippy]
+cargo = { level = "deny", priority = -1 }
+complexity = { level = "deny", priority = -1 }
+correctness = { level = "deny", priority = -1 }
+nursery = { level = "deny", priority = -1 }
+pedantic = { level = "deny", priority = -1 }
+perf = { level = "deny", priority = -1 }
+style = { level = "deny", priority = -1 }
+suspicious = { level = "deny", priority = -1 }
+# Duplicates (hashbrown, miniz_oxide, syn) come from dependencies we don't control.
+multiple_crate_versions = "allow"
+missing_errors_doc = "allow"
+allow_attributes = "deny"
+allow_attributes_without_reason = "deny"
+arbitrary_source_item_ordering = "deny"
+as_conversions = "deny"
+assertions_on_result_states = "deny"
+clone_on_ref_ptr = "deny"
+create_dir = "deny"
+dbg_macro = "deny"
+decimal_literal_representation = "deny"
+default_numeric_fallback = "deny"
+else_if_without_else = "deny"
+exit = "deny"
+expect_used = "deny"
+filetype_is_file = "deny"
+indexing_slicing = "deny"
+inline_trait_bounds = "deny"
+let_underscore_must_use = "deny"
+let_underscore_untyped = "deny"
+map_err_ignore = "deny"
+map_with_unused_argument_over_ranges = "deny"
+min_ident_chars = "deny"
+missing_asserts_for_indexing = "deny"
+multiple_unsafe_ops_per_block = "deny"
+must_use_without_reason = "deny"
+needless_raw_strings = "deny"
+panic = "deny"
+partial_pub_fields = "deny"
+precedence_bits = "deny"
+print_stderr = "deny"
+print_stdout = "deny"
+redundant_type_annotations = "deny"
+renamed_function_params = "deny"
+rest_pattern_accessible_field = "deny"
+return_and_then = "deny"
+shadow_same = "deny"
+shadow_unrelated = "deny"
+string_slice = "deny"
+todo = "deny"
+undocumented_unsafe_blocks = "deny"
+unimplemented = "deny"
+unseparated_literal_suffix = "deny"
+unused_trait_names = "deny"
+unwrap_used = "deny"
+use_debug = "deny"
+verbose_file_reads = "deny"
+wildcard_enum_match_arm = "deny"

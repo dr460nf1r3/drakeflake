@@ -1,0 +1,25 @@
+[package]
+name = "drakeflake-file"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+drakeflake-config.workspace = true
+drakeflake-fs.workspace = true
+drakeflake-exec.workspace = true
+drakeflake-render.workspace = true
+drakeflake-validate.workspace = true
+drakeflake-plan.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+log.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
+drakeflake-exec = { workspace = true, features = ["testing"] }

@@ -1,0 +1,18 @@
+[package]
+name = "drakeflake-scan"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+# Linux's root file system scan of the Impermanence page. The root helper
+# links it next to `drakeflake-plan`.
+[dependencies]
+serde.workspace = true
+
+[lints]
+workspace = true
+
+[dev-dependencies]
+tempfile.workspace = true
