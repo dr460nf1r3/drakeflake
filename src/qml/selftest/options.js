@@ -141,7 +141,7 @@ function values(test) {
                 const locations = test.details("services.openssh.enable").locations || [];
                 test.log("services.openssh.enable set in: " + JSON.stringify(locations));
 
-                const line = test.app.systemModel.selftest("suite") === "hm" ? 14 : 18;
+                const line = test.app.systemModel.selftest("suite") === "hm" ? 11 : 15;
                 test.check(locations.some(location => location.local && location.display === "configuration.nix" && location.line === line), "definition not found at configuration.nix:" + line);
             }
         },

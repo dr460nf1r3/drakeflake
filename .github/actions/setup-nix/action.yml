@@ -1,5 +1,5 @@
 name: Set up Nix
-description: Install Nix and the magic cache, and optionally provide the fonts the self-tests render with.
+description: Install Nix, and optionally provide the fonts the self-tests render with.
 
 inputs:
   fonts:
@@ -10,7 +10,6 @@ runs:
   using: composite
   steps:
     - uses: cachix/install-nix-action@v31
-    - uses: DeterminateSystems/magic-nix-cache-action@v15
     - if: inputs.fonts == 'true'
       shell: bash
       run: |

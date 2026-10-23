@@ -450,7 +450,7 @@ checksum = "d8b14ccef22fc6f5a8f4d7d768562a182c04ce9a3b3157b91390b52ddfdf1a76"
 
 [[package]]
 name = "drakeflake-app"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "alacritty_terminal",
  "cc",
@@ -481,7 +481,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-config"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "drakeflake-fs",
@@ -494,7 +494,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-evaluate"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-config",
  "drakeflake-file",
@@ -509,7 +509,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-exec"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-exec",
  "log",
@@ -519,7 +519,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-file"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-config",
  "drakeflake-exec",
@@ -535,7 +535,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-flake"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-config",
  "drakeflake-exec",
@@ -550,7 +550,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-fs"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "rustix",
  "tempfile",
@@ -558,7 +558,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-functions"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "drakeflake-store",
@@ -571,7 +571,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-helper"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-plan",
  "drakeflake-scan",
@@ -582,7 +582,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-lint"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "regex",
  "tree-sitter",
@@ -593,7 +593,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-log"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-fs",
  "log",
@@ -602,7 +602,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-plan"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-render",
  "log",
@@ -613,14 +613,14 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-render"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "serde",
 ]
 
 [[package]]
 name = "drakeflake-scan"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "serde",
  "tempfile",
@@ -628,7 +628,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-store"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "anyhow",
  "drakeflake-render",
@@ -638,7 +638,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-tray"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-fs",
  "drakeflake-log",
@@ -650,7 +650,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-tray-core"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-config",
  "drakeflake-evaluate",
@@ -664,7 +664,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-tray-macos"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "dispatch2",
  "drakeflake-log",
@@ -678,7 +678,7 @@ dependencies = [
 
 [[package]]
 name = "drakeflake-validate"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "drakeflake-render",
  "rnix",
