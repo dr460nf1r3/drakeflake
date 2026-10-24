@@ -73,7 +73,7 @@ Item {
     function checkCommitted(): void {
         const log = test.app.consoleModel.log_text();
         test.check(log.indexOf("Created a git repository") >= 0, "no git repository created for the fixture");
-        test.check(log.indexOf("Committed the changes") >= 0, "apply did not commit");
+        test.check(test.app.systemModel.last_commit !== "", "apply did not commit");
     }
 
     function shot(name: string): void {

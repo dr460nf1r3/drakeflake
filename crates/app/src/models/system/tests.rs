@@ -84,17 +84,17 @@ fn restore_is_offered_only_after_a_failed_run_with_a_backup() {
     let mut run = RunState::default();
     assert!(!run.can_restore());
 
-    run.finished(false, Some(backup.clone()));
+    run.finished(false, Some(backup.clone()), None);
     assert!(run.can_restore());
 
-    run.finished(false, None);
+    run.finished(false, None, None);
     assert_eq!(run.last_backup.as_ref(), Some(&backup));
     assert!(run.can_restore());
 
     run.running = true;
     assert!(!run.can_restore(), "not while another run is going");
 
-    run.finished(true, None);
+    run.finished(true, None, None);
     assert!(run.last_result == Outcome::Ok);
     assert!(!run.can_restore());
 }
@@ -135,10 +135,26 @@ fn finished_runs_report_their_outcome() {
     model.handle(SystemMsg::Finished {
         ok: false,
         backup: Some(PathBuf::from("/tmp/b.nix")),
+        commit: None,
     });
     assert!(!model.running());
     assert_eq!(model.last_result(), "failed");
     assert!(model.can_restore());
+}
+
+#[test]
+fn the_commit_is_visible_with_the_outcome() {
+    let mut model = SystemModel::default();
+    model.handle(SystemMsg::Running(true));
+    assert_eq!(model.last_commit(), "");
+
+    model.handle(SystemMsg::Finished {
+        ok: true,
+        backup: None,
+        commit: Some("b19350d".to_owned()),
+    });
+    assert_eq!(model.last_result(), "ok");
+    assert_eq!(model.last_commit(), "b19350d");
 }
 
 #[test]

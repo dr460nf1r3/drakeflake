@@ -174,7 +174,12 @@ fn wait_for_finish(hub: &Hub, timeout: Duration) -> Option<Finished> {
         }
 
         hub.mail.system.take().into_iter().find_map(|message| {
-            if let SystemMsg::Finished { ok, backup } = message {
+            if let SystemMsg::Finished {
+                ok,
+                backup,
+                commit: _,
+            } = message
+            {
                 Some((ok, backup))
             } else {
                 None

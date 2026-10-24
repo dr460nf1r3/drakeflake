@@ -50,10 +50,16 @@ pub fn system_until_finished(hub: &Hub) -> Vec<SystemMsg> {
 
     loop {
         seen.extend(hub.mail.system.take());
-        if seen
-            .iter()
-            .any(|message| matches!(message, SystemMsg::Finished { ok: _, backup: _ }))
-        {
+        if seen.iter().any(|message| {
+            matches!(
+                message,
+                SystemMsg::Finished {
+                    ok: _,
+                    backup: _,
+                    commit: _
+                }
+            )
+        }) {
             return seen;
         }
 

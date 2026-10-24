@@ -160,6 +160,7 @@ pub enum SystemMsg {
     Finished {
         ok: bool,
         backup: Option<PathBuf>,
+        commit: Option<String>,
     },
     Activities(Vec<String>),
     HomeUsers {

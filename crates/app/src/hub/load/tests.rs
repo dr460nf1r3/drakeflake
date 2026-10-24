@@ -310,7 +310,8 @@ fn a_repository_created_by_a_save_restarts_the_load_that_failed_without_it() {
         message,
         SystemMsg::Finished {
             ok: true,
-            backup: _
+            backup: _,
+            commit: _,
         }
     )));
     assert!(

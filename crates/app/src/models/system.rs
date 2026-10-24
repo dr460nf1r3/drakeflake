@@ -66,6 +66,7 @@ impl SystemModel {
     qproperty!("target_ready", Read = target_ready, Notify = state_changed);
     qproperty!("running", Read = running, Notify = state_changed);
     qproperty!("last_result", Read = last_result, Notify = state_changed);
+    qproperty!("last_commit", Read = last_commit, Notify = state_changed);
     qproperty!("can_restore", Read = can_restore, Notify = state_changed);
     qproperty!("activity", Read = activity, Notify = state_changed);
     qproperty!("busy", Read = busy, Notify = state_changed);
@@ -119,6 +120,10 @@ impl SystemModel {
 
     pub fn last_result(&self) -> String {
         self.run.last_result.to_string()
+    }
+
+    pub fn last_commit(&self) -> String {
+        self.run.last_commit.clone().unwrap_or_default()
     }
 
     pub fn can_restore(&self) -> bool {

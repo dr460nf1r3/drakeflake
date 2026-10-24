@@ -149,7 +149,11 @@ fn warning_ids(hub: &Hub, target: &Target) -> Vec<WarningId> {
                 error: _,
             }
             | SystemMsg::Running(_)
-            | SystemMsg::Finished { ok: _, backup: _ }
+            | SystemMsg::Finished {
+                ok: _,
+                backup: _,
+                commit: _,
+            }
             | SystemMsg::Activities(_)
             | SystemMsg::HomeUsers {
                 users: _,
