@@ -1,4 +1,5 @@
 {
+  lib,
   stdenv,
   rustPlatform,
   nix,
@@ -7,7 +8,7 @@
 let
   generator = rustPlatform.buildRustPackage {
     pname = "drakeflake-function-index-generator";
-    version = "0.1.0";
+    version = (lib.importTOML ../../Cargo.toml).workspace.package.version;
     src = ../..;
     cargoLock.lockFile = ../../Cargo.lock;
     cargoBuildFlags = [
