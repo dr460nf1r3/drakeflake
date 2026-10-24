@@ -23,7 +23,7 @@
 let
   inherit (stdenv.hostPlatform) isLinux;
 
-  version = "0.1.0";
+  version = (lib.importTOML ../Cargo.toml).workspace.package.version;
 
   tagline = "NixOS, tamed: search and change the options, packages and inputs of a NixOS or nix-darwin system flake";
 
@@ -103,6 +103,7 @@ let
         "--set DRAKEFLAKE_DOCS_DIR ${placeholder "out"}/share/drakeflake/docs"
         "--set QT_QUICK_CONTROLS_STYLE ${if isLinux then "org.kde.breeze" else "DrakeFlakeMac"}"
         "--suffix XDG_DATA_DIRS : ${kdePackages.breeze-icons}/share"
+
         # Appended, so the user's own versions win.
         "--suffix PATH : ${
           lib.makeBinPath [
@@ -111,6 +112,7 @@ let
           ]
         }"
       ]
+
       # Qt on macOS ignores XDG_DATA_DIRS: Breeze comes as Qt resources.
       ++ lib.optional (!isLinux) "--set DRAKEFLAKE_ICON_RCC_DIR ${iconResources}";
 
@@ -165,7 +167,9 @@ let
         app=$out/Applications/DrakeFlake.app/Contents
         install -Dm644 ${infoPlist} $app/Info.plist
         install -Dm644 ${macosIcons}/drakeflake.icns $app/Resources/drakeflake.icns
+
         mkdir -p $app/MacOS
+
         printf '#!/bin/sh\nexec %s "$@"\n' $out/bin/drakeflake > $app/MacOS/DrakeFlake
         chmod 755 $app/MacOS/DrakeFlake
 
@@ -208,9 +212,11 @@ in
 
   lint = rustPlatform.buildRustPackage {
     pname = "drakeflake-lint";
-    version = "0.1.0";
+    inherit version;
+
     src = ../.;
     cargoLock.lockFile = ../Cargo.lock;
+
     cargoBuildFlags = [
       "-p"
       "drakeflake-lint"
@@ -219,6 +225,7 @@ in
       "-p"
       "drakeflake-lint"
     ];
+
     meta.mainProgram = "drakeflake-lint";
   };
 
@@ -265,14 +272,17 @@ in
         # Not the nextest hook, which stops the build when a test fails.
         checkPhase = ''
           runHook preCheck
+
           # The sandbox has no writable /nix/var, and nix creates its profile
           # directory there when it evaluates.
           export NIX_STATE_DIR="$TMPDIR/nix-state"
           mkdir -p "$NIX_STATE_DIR"
+
           # nix caches under $HOME, which is not writable in the sandbox.
           export HOME="$TMPDIR/home"
           mkdir -p "$HOME"
           status=0
+
           cargo nextest run --offline --show-progress=none -j "$NIX_BUILD_CORES" \
             ${lib.escapeShellArgs appCrates} || status=$?
           runHook postCheck

@@ -227,7 +227,18 @@ jobs:
       - name: Write the changelog
         env:
           TAG: ${{ github.ref_name }}
-        run: nix run nixpkgs#commitizen -- changelog "$TAG" --dry-run > notes.md
+        run: |
+          {
+            echo "# DrakeFlake $TAG"
+            echo
+            echo "<img src=\"https://raw.githubusercontent.com/dr460nf1r3/drakeflake/$TAG/data/icons/drakeflake.svg\" width=\"96\" alt=\"DrakeFlake icon\">"
+            echo
+            echo "NixOS, tamed: search and change the options, packages and inputs of a NixOS or nix-darwin system flake"
+            echo
+            echo "Homepage: https://github.com/dr460nf1r3/drakeflake"
+            echo
+            nix run nixpkgs#git-cliff -- --latest --strip header
+          } > notes.md
       - name: Create the release
         env:
           GH_TOKEN: ${{ github.token }}

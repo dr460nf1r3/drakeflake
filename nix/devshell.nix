@@ -20,6 +20,19 @@ let
     '';
   };
 
+  release = pkgs.writeShellApplication {
+    name = "release";
+    runtimeInputs = [
+      pkgs.git
+      pkgs.git-cliff
+      rustToolchain
+    ];
+    text = ''
+      root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+      exec "$root/scripts/release.sh" "$@"
+    '';
+  };
+
   devShellWith =
     compiler: compilerEnv:
     pkgs.mkShell {
@@ -41,6 +54,8 @@ let
         pkgs.cargo-llvm-cov
         pkgs.watchexec
         devLoop
+        release
+        pkgs.git-cliff
         pkgs.qt6.qttools
         qmakeWrapped
         treefmtWrapper
