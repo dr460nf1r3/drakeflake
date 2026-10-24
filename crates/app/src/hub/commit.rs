@@ -95,9 +95,11 @@ pub fn commit_applied(
     }
 
     match commit_staged(context, dir, &subject, &body) {
-        Ok(summary) => run
-            .console()
-            .log(format!("Committed the changes ({summary})")),
+        Ok(summary) => {
+            run.console()
+                .log(format!("Committed the changes ({summary})"));
+            run.record_commit(summary);
+        }
         Err(error) => run
             .console()
             .warn(format!("Automatic commit failed: {error}")),

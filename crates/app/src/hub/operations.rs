@@ -118,6 +118,7 @@ impl Operations {
             end.system.post(SystemMsg::Finished {
                 ok: end.outcome.is_success(),
                 backup: end.backup,
+                commit: end.commit,
             });
         }
     }
@@ -127,17 +128,20 @@ struct Ending<'a> {
     id: u64,
     outcome: Outcome,
     backup: Option<PathBuf>,
+    commit: Option<String>,
     reporting: Reporting,
     system: &'a Mailbox<SystemMsg>,
 }
 
 type Backup = Arc<Mutex<Option<PathBuf>>>;
+type Committed = Arc<Mutex<Option<String>>>;
 
 pub struct Exclusive {
     hub: Arc<Hub>,
     cancel: CancelToken,
     nix: Nix,
     backup: Backup,
+    commit: Committed,
 }
 
 impl Exclusive {
@@ -173,6 +177,10 @@ impl Exclusive {
         *lock(&self.backup) = Some(file);
     }
 
+    pub fn record_commit(&self, summary: String) {
+        *lock(&self.commit) = Some(summary);
+    }
+
     #[cfg(test)]
     pub fn detached(hub: &Arc<Hub>) -> Self {
         Self {
@@ -180,6 +188,7 @@ impl Exclusive {
             cancel: CancelToken::new(),
             nix: hub.nix(),
             backup: Backup::default(),
+            commit: Committed::default(),
         }
     }
 
@@ -199,6 +208,7 @@ struct Finish {
     id: u64,
     outcome: Outcome,
     backup: Backup,
+    commit: Committed,
     reporting: Reporting,
 }
 
@@ -212,11 +222,13 @@ impl Drop for Finish {
     fn drop(&mut self) {
         let outcome = std::mem::take(&mut self.outcome);
         let backup = lock(&self.backup).take();
+        let commit = lock(&self.commit).take();
 
         self.hub.operations().finish(Ending {
             id: self.id,
             outcome,
             backup,
+            commit,
             reporting: self.reporting,
             system: &self.hub.mail().system,
         });
@@ -235,11 +247,13 @@ pub fn start(
 
     let operation = name.to_owned();
     let backup = Backup::default();
+    let commit = Committed::default();
     let mut finish = Finish {
         hub: Arc::clone(hub),
         id,
         outcome: Outcome::Failed,
         backup: Arc::clone(&backup),
+        commit: Arc::clone(&commit),
         reporting,
     };
 
@@ -251,6 +265,7 @@ pub fn start(
             cancel,
             nix: nix.clone(),
             backup,
+            commit,
         };
 
         let outcome = job(&run);

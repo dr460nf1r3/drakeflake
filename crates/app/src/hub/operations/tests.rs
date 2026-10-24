@@ -27,7 +27,8 @@ fn a_panicking_job_still_ends_the_operation() {
             SystemMsg::Running(true),
             SystemMsg::Finished {
                 ok: false,
-                backup: None
+                backup: None,
+                commit: None
             }
         ]
     ));
@@ -80,7 +81,7 @@ fn only_one_operation_runs_and_its_backup_is_reported() {
     assert!(
         matches!(
             messages.last(),
-            Some(SystemMsg::Finished { ok: true, backup: Some(path) }) if *path == expected
+            Some(SystemMsg::Finished { ok: true, backup: Some(path), commit: _ }) if *path == expected
         ),
         "the backup of the operation is lost"
     );
@@ -101,7 +102,8 @@ fn a_failed_run_keeps_the_backup_it_made() {
         system_until_finished(&hub).last(),
         Some(SystemMsg::Finished {
             ok: false,
-            backup: Some(_)
+            backup: Some(_),
+            commit: _,
         })
     ));
 }

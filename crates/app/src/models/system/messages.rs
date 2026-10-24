@@ -12,7 +12,7 @@ impl SystemModel {
                 error,
             } => self.on_target_error(flake, hosts, error),
             SystemMsg::Running(running) => self.run.running = running,
-            SystemMsg::Finished { ok, backup } => self.run.finished(ok, backup),
+            SystemMsg::Finished { ok, backup, commit } => self.run.finished(ok, backup, commit),
             SystemMsg::Activities(list) => self.activities = list,
             SystemMsg::Warnings(list) => {
                 if log::log_enabled!(log::Level::Debug) {

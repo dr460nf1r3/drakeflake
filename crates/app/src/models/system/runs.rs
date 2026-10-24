@@ -32,6 +32,7 @@ pub struct RunState {
     pub running: bool,
     pub last_result: Outcome,
     pub last_backup: Option<PathBuf>,
+    pub last_commit: Option<String>,
 }
 
 impl RunState {
@@ -39,8 +40,9 @@ impl RunState {
         !self.running && self.last_result == Outcome::Failed && self.last_backup.is_some()
     }
 
-    pub fn finished(&mut self, ok: bool, backup: Option<PathBuf>) {
+    pub fn finished(&mut self, ok: bool, backup: Option<PathBuf>, commit: Option<String>) {
         self.running = false;
+        self.last_commit = commit;
         self.last_result = if ok { Outcome::Ok } else { Outcome::Failed };
 
         match &backup {
@@ -65,6 +67,7 @@ impl SystemModel {
         match result {
             Ok(()) => {
                 self.run.last_result = Outcome::Unknown;
+                self.run.last_commit = None;
                 self.run.running = true;
             }
             Err(error) => self.hub.log_error(error.to_string()),
@@ -75,6 +78,7 @@ impl SystemModel {
         let error = match result {
             Ok(()) => {
                 self.run.last_result = Outcome::Unknown;
+                self.run.last_commit = None;
                 self.run.running = true;
                 String::new()
             }
