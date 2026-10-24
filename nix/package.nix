@@ -122,6 +122,10 @@ let
         chmod -R u+w $out/share/drakeflake/qml
 
         cp -r ${../docs/src} $out/share/drakeflake/docs
+        chmod -R u+w $out/share/drakeflake/docs
+        # The copied symlink points outside docs/src, so it is replaced by the generated file.
+        rm $out/share/drakeflake/docs/changelog.md
+        bash ${../scripts/changelog-docs.sh} ${../.} $out/share/drakeflake/docs/changelog.md
 
         bash ${../scripts/i18n-release.sh} $out/share/drakeflake/qml/i18n
 

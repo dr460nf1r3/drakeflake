@@ -1,6 +1,6 @@
 # Changelog
 
-<img src="data/icons/drakeflake.svg" width="96" alt="DrakeFlake icon">
+<img src="docs/src/images/drakeflake.svg" width="96" alt="DrakeFlake icon">
 
 All notable changes to DrakeFlake.
 

@@ -1,6 +1,7 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
 use std::ffi::c_void;
+use std::mem::ManuallyDrop;
 
 use wayland_backend::client::{Backend, ObjectId};
 use wayland_client::globals::{GlobalListContents, registry_queue_init};
@@ -39,8 +40,10 @@ enum Link {
     Ready(Box<Effects>),
 }
 
+// Never dropped: thread-local destructors run in exit() after Qt has freed the wl_display
+// these proxies live on, and destroying them then writes into freed memory.
 thread_local! {
-    static EFFECTS: RefCell<Link> = const { RefCell::new(Link::Untried) };
+    static EFFECTS: ManuallyDrop<RefCell<Link>> = const { ManuallyDrop::new(RefCell::new(Link::Untried)) };
 }
 
 impl Effects {
@@ -139,12 +142,13 @@ delegate_noop!(State: WlRegion);
 delegate_noop!(State: ExtBackgroundEffectSurfaceV1);
 
 pub(super) fn apply(display: *mut c_void, surface: *mut c_void, enabled: bool) -> bool {
-    EFFECTS.with_borrow_mut(|link| {
-        if matches!(link, Link::Untried) {
+    EFFECTS.with(|cell| {
+        let mut link = cell.borrow_mut();
+        if matches!(*link, Link::Untried) {
             *link = connect(display).map_or(Link::Failed, |effects| Link::Ready(Box::new(effects)));
         }
 
-        match link {
+        match &mut *link {
             Link::Ready(effects) => effects.set(surface, enabled),
             Link::Untried | Link::Failed => false,
         }
@@ -153,8 +157,8 @@ pub(super) fn apply(display: *mut c_void, surface: *mut c_void, enabled: bool) -
 
 /// Qt destroyed the surface, so its effect object is already inert.
 pub(super) fn forget(surface: *mut c_void) {
-    EFFECTS.with_borrow_mut(|link| {
-        if let Link::Ready(effects) = link {
+    EFFECTS.with(|cell| {
+        if let Link::Ready(effects) = &mut *cell.borrow_mut() {
             effects.forget(surface.addr());
         }
     });

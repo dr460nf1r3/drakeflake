@@ -26,3 +26,4 @@
 - [Troubleshooting](troubleshooting.md)
 - [Frequently asked questions](faq.md)
 - [Privacy and security](security.md)
+- [Changelog](changelog.md)
