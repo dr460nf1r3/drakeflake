@@ -1,5 +1,5 @@
 name: Set up Nix
-description: Install Nix, and optionally provide the fonts the self-tests render with.
+description: Install Nix, restore and save the Nix store, and optionally provide the fonts the self-tests render with.
 
 inputs:
   fonts:
@@ -10,6 +10,14 @@ runs:
   using: composite
   steps:
     - uses: cachix/install-nix-action@v31
+      with:
+        extra_nix_config: |
+          keep-env-derivations = true
+          keep-outputs = true
+    - uses: nix-community/cache-nix-action@v7
+      with:
+        primary-key: nix-${{ runner.os }}-${{ hashFiles('**/*.nix', '**/flake.lock') }}
+        restore-prefixes-first-match: nix-${{ runner.os }}-
     - if: inputs.fonts == 'true'
       shell: bash
       run: |
